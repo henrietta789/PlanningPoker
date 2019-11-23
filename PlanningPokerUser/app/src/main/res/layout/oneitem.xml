@@ -1,0 +1,10 @@
+
+<Button
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/oneitem_button"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:textSize="20dp"
+    />
+
+
