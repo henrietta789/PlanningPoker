@@ -1,110 +1,123 @@
 package com.example.planningpoker_admin;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link questFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link questFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class questFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public questFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment questFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static questFragment newInstance(String param1, String param2) {
-        questFragment fragment = new questFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    EditText quest_et, date_et;
+    Button add_btn, answ_btn;
+    RecyclerView rck_vw;
+    DatabaseReference db;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
+    String mDataset;
+    ArrayList<Questions> ques;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v= inflater.inflate(R.layout.fragment_quest, container, false);
+        quest_et=v.findViewById(R.id.quest_editText);
+        date_et=v.findViewById(R.id.date_editText);
+        add_btn=v.findViewById(R.id.add_button);
+        answ_btn=v.findViewById(R.id.answ_button);
+        rck_vw=v.findViewById(R.id.quest_recyclerView);
+        db=FirebaseDatabase.getInstance().getReference().child("Questions");
+
+        answ_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                FragmentTransaction frag_quest = getFragmentManager().beginTransaction();
+                frag_quest.replace(R.id.fragment_container,new AnswFragment());
+                frag_quest.commit();
+            }
+        });
+
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addQuestion();
+            }
+        });
+        rck_vw.setHasFixedSize(true);
+        layoutManager= new LinearLayoutManager(this.getActivity());
+        rck_vw.setLayoutManager(layoutManager);
+        ques=new ArrayList<>();
+
+        adapter=new myAdapter(ques);
+
+        getDataFirebase();
+
+
+        return  v;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quest, container, false);
+    private void getDataFirebase() {
+        db.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Questions data = dataSnapshot.getValue(Questions.class);
+
+                ques.add(data);
+                rck_vw.setAdapter(adapter);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+    private void addQuestion() {
+        quest_et=getView().findViewById(R.id.quest_editText);
+        String question=quest_et.getText().toString();
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+        date_et=getView().findViewById(R.id.date_editText);
+        String date=date_et.getText().toString();
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+        Questions qu=new Questions(date,question);
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        db.push().setValue(qu);
+
+        Toast.makeText(getActivity(),"Saved",Toast.LENGTH_SHORT).show();
     }
 }

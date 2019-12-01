@@ -15,6 +15,43 @@
       },
       "oauth_client": [
         {
+          "client_id": "378460331581-dr3v2s7ivm3p7dih1q5bf0jn36mo9flv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.planningpoker_admin",
+            "certificate_hash": "b1522c762136dc93c9a57fac725811a05ec02c3f"
+          }
+        },
+        {
+          "client_id": "378460331581-19f58e4jvsqrepfdpqtdopmcijods3sr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDsiEL83WED2Avyeo9p2uxfMzEEcbaTDhI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378460331581-19f58e4jvsqrepfdpqtdopmcijods3sr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378460331581:android:cee77224b5af48275d1454",
+        "android_client_info": {
+          "package_name": "com.example.planningpoker_user"
+        }
+      },
+      "oauth_client": [
+        {
           "client_id": "378460331581-19f58e4jvsqrepfdpqtdopmcijods3sr.apps.googleusercontent.com",
           "client_type": 3
         }

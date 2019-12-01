@@ -33,28 +33,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/us_textView" />
 
-    <EditText
-        android:id="@+id/psw_editText"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="70dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_editText" />
-
     <Button
         android:id="@+id/login_button"
         android:layout_width="300dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="128dp"
         android:text="LOGIN"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/gp_editText"
+        android:layout_width="303dp"
+        android:layout_height="52dp"
+        android:ems="10"
+        android:hint="Group Name"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/psw_editText"
-        app:layout_constraintVertical_bias="0.314" />
+        app:layout_constraintTop_toBottomOf="@+id/name_editText"
+        app:layout_constraintVertical_bias="0.238" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
