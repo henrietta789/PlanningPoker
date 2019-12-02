@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,6 +47,8 @@ public class questFragment extends Fragment {
         answ_btn=v.findViewById(R.id.answ_button);
         rck_vw=v.findViewById(R.id.quest_recyclerView);
         db=FirebaseDatabase.getInstance().getReference().child("Questions");
+        rck_vw.setItemAnimator(new DefaultItemAnimator());
+        rck_vw.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
 
         answ_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +67,8 @@ public class questFragment extends Fragment {
             }
         });
         rck_vw.setHasFixedSize(true);
-        layoutManager= new LinearLayoutManager(this.getActivity());
+        //layoutManager= new LinearLayoutManager(this.getActivity());
+        rck_vw.setLayoutManager(new LinearLayoutManager(getContext()));
         rck_vw.setLayoutManager(layoutManager);
         ques=new ArrayList<>();
 

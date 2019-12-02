@@ -74,6 +74,7 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull myAdapter.ViewHolder holder, int position) {
         holder.textView.setText(questionlist.get(position).getQuest());
+        holder.textView1.setText(questionlist.get(position).getDate());
     }
 
     @Override
@@ -83,9 +84,11 @@ public class myAdapter extends RecyclerView.Adapter<myAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView textView;
+        TextView textView1;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.question_view);
+            textView1=itemView.findViewById(R.id.date_textView);
 
         }
     }
